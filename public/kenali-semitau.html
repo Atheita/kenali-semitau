@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kenali Semitau - Portal Data Resmi, Sejarah & Informasi BPS</title>
+  <meta name="description" content="Portal data resmi dan informasi terpadu Kecamatan Semitau, Kabupaten Kapuas Hulu. Menampilkan sejarah eks-kawedanan, rekam jejak nama-nama Camat (1964-2025), demografi 12 desa BPS, profil kades & PNS, sekolah, serta fasilitas kesehatan. Dibuat oleh Ahkram Fatih Dehirtan.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+
+  <!-- jsPDF & jsPDF-AutoTable CDN for Client-side PDF Exports -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Playfair Display"', 'Georgia', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #faf8f5;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #d6d3d1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #a8a29e;
+    }
+  </style>
+</head>
+<body class="bg-[#f3efe8] text-[#2c2825] font-sans antialiased p-3 sm:p-6 lg:p-10 flex flex-col items-center">
+
+  <!-- MAIN FLOATING CONTAINER -->
+  <div class="w-full max-w-7xl bg-[#faf8f5] rounded-3xl lg:rounded-[36px] shadow-2xl border border-stone-200/80 overflow-hidden flex flex-col">
+    
+    <!-- HERO SECTION WITH SCENIC MIST OVERLAY -->
+    <section id="beranda" class="relative min-h-[640px] sm:min-h-[720px] flex flex-col justify-between overflow-hidden">
+      
+      <!-- Background Pemandangan Sungai & Kabut Semitau -->
+      <div class="absolute inset-0 z-0">
+        <img 
+          src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2000&q=80" 
+          alt="Bentang Alam Kapuas Hulu" 
+          class="w-full h-full object-cover object-center filter brightness-[0.93] contrast-[1.02]"
+        />
+        <!-- Warm Misty Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-b from-[#faf8f5]/90 via-[#faf8f5]/65 to-[#faf8f5]"></div>
+      </div>
+
+      <!-- NAVBAR STICKY DENGAN LOGO RESMI KAPUAS HULU -->
+      <header class="relative z-20 w-full px-6 sm:px-10 lg:px-14 py-6 flex items-center justify-between">
+        
+        <!-- Logo Resmi & Nama Portal -->
+        <a href="#beranda" class="flex items-center gap-3.5 group">
+          <div class="w-12 h-14 flex items-center justify-center p-1 bg-white/90 backdrop-blur rounded-xl shadow-sm border border-stone-200/80 transition-transform group-hover:scale-105">
+            <img 
+              src="/assets/aistudio/Logo-Kabupaten-Kapuas-Hulu-Dianisa.com__e8b26fe5.png" 
+              alt="Lambang Kabupaten Kapuas Hulu" 
+              class="w-full h-full object-contain"
+            />
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-2">
+              <span class="font-display font-extrabold text-xl sm:text-2xl tracking-tight text-stone-900">
+                Kenali Semitau
+              </span>
+              <span class="hidden sm:inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-stone-900 text-stone-100">
+                BPS 2026
+              </span>
+            </div>
+            <span class="text-[11px] tracking-wider uppercase text-stone-600 font-medium">
+              Kecamatan Semitau · Kabupaten Kapuas Hulu
+            </span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links (Pill Capsule Nav) -->
+        <nav class="hidden lg:flex items-center gap-1 xl:gap-2 px-3 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-stone-200/80 shadow-xs text-xs font-semibold text-stone-600 shrink-0">
+          <a href="#beranda" class="px-3 py-1.5 rounded-full hover:bg-stone-100 hover:text-stone-950 transition-colors whitespace-nowrap">Beranda</a>
+          <a href="#sejarah" class="px-3 py-1.5 rounded-full hover:bg-stone-100 hover:text-stone-950 transition-colors whitespace-nowrap">Sejarah</a>
+          <a href="#camat" class="px-3 py-1.5 rounded-full hover:bg-amber-100/70 text-[#87522e] font-bold transition-colors whitespace-nowrap flex items-center gap-1">
+            <svg class="w-3.5 h-3.5 text-[#87522e]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            <span>19 Camat</span>
+          </a>
+          <a href="#demografi" class="px-3 py-1.5 rounded-full hover:bg-stone-100 hover:text-stone-950 transition-colors whitespace-nowrap">Demografi</a>
+          <a href="#sektoral-bps" class="px-3 py-1.5 rounded-full hover:bg-stone-100 hover:text-stone-950 transition-colors whitespace-nowrap">Data Sektoral</a>
+          <a href="#geografi" class="px-3 py-1.5 rounded-full hover:bg-stone-100 hover:text-stone-950 transition-colors whitespace-nowrap">Geografi</a>
+        </nav>
+
+        <!-- Author Tag & Action -->
+        <div class="flex items-center gap-2.5 sm:gap-3.5 shrink-0">
+          <div class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 backdrop-blur-sm border border-stone-200/80 text-xs shrink-0 shadow-2xs">
+            <span class="text-[10px] uppercase text-stone-400 font-bold tracking-wider">Karya:</span>
+            <span class="text-xs font-bold text-stone-900 whitespace-nowrap">Ahkram Fatih Dehirtan</span>
+          </div>
+          <button id="mobileMenuBtn" class="lg:hidden p-2.5 rounded-xl bg-white/90 hover:bg-stone-200 text-stone-800 transition-colors shadow-xs border border-stone-200/80 cursor-pointer" aria-label="Menu">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Mobile Dropdown -->
+      <div id="mobileMenu" class="hidden lg:hidden relative z-20 px-6 py-4 bg-[#faf8f5]/95 backdrop-blur-md border-b border-stone-200">
+        <nav class="flex flex-col gap-3 text-sm font-medium text-stone-800">
+          <a href="#beranda" class="py-1">Beranda</a>
+          <a href="#sejarah" class="py-1">Sejarah Eks-Kawedanan</a>
+          <a href="#camat" class="py-1 font-bold text-[#87522e]">19 Camat Semitau (1964 - Sekarang)</a>
+          <a href="#demografi" class="py-1">Data Demografi (12 Desa)</a>
+          <a href="#sektoral-bps" class="py-1">Data Sektoral BPS (PNS, Sekolah, Kades)</a>
+          <a href="#geografi" class="py-1">Geografi &amp; Wilayah</a>
+          <div class="pt-3 border-t border-stone-200 text-xs text-stone-600 flex items-center justify-between">
+            <span>Dibuat oleh: <strong class="text-stone-900">Ahkram Fatih Dehirtan</strong></span>
+            <a href="#camat" class="px-3 py-1 bg-stone-900 text-white rounded-full text-xs font-semibold">Lihat Camat</a>
+          </div>
+        </nav>
+      </div>
+
+      <!-- HERO CENTER CONTENT -->
+      <div class="relative z-10 px-6 sm:px-10 lg:px-14 py-12 sm:py-16 flex flex-col items-center text-center max-w-4xl mx-auto my-auto">
+        
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-stone-200/80 text-xs text-stone-700 mb-6 shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+          <span class="font-semibold text-stone-900">Portal Data Statistik &amp; Arsip Historis Terpadu</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-stone-900 leading-[1.15] mb-5">
+          Menelusuri jejak &amp; data resmi <br class="hidden sm:inline" />
+          <span class="font-display italic font-normal text-[#87522e]">Kenali Semitau</span>
+        </h1>
+
+        <p class="text-sm sm:text-base text-stone-600 max-w-2xl leading-relaxed mb-8">
+          Pusat informasi komprehensif Kecamatan Semitau, Kabupaten Kapuas Hulu. Menyajikan sejarah panjang era eks-kawedanan, rekam jejak nama-nama Camat (1964-sekarang), tata kelola 12 desa, profil aparatur sipil negara, fasilitas pendidikan, pelayanan kesehatan, serta sebaran 10.875 jiwa penduduk menurut data resmi Badan Pusat Statistik.
+        </p>
+
+        <!-- Pill Search Bar with Recent Searches -->
+        <div class="w-full max-w-lg relative">
+          <form id="heroSearchForm" onsubmit="handleHeroSearch(event)" class="w-full bg-white rounded-full p-2 border border-stone-200/90 shadow-xl flex items-center gap-2 focus-within:shadow-2xl focus-within:border-stone-400 transition-all">
+            <div class="pl-4 text-stone-400">
+              <svg class="w-4 h-4 sm:w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+            </div>
+            <input 
+              id="heroSearchInput"
+              type="text" 
+              placeholder="Cari desa, camat, kades, fasilitas (misal: Semitau Hulu, Dasri)..." 
+              class="flex-1 bg-transparent text-xs sm:text-sm text-stone-900 placeholder-stone-400 focus:outline-none"
+            />
+            <button type="submit" class="px-5 sm:px-6 py-2.5 rounded-full bg-stone-900 text-stone-50 text-xs sm:text-sm font-semibold hover:bg-stone-800 transition-colors shadow-sm cursor-pointer whitespace-nowrap shrink-0">
+              Cari Data
+            </button>
+          </form>
+        </div>
+
+        <!-- Recent Searches Chips (3 Riwayat Terakhir) -->
+        <div id="recentSearchesBar" class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 mt-3.5 text-xs">
+          <!-- Rendered dynamically via JS -->
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-2 mt-4 text-[11px] text-stone-500">
+          <span class="font-medium text-stone-700">Akses Cepat:</span>
+          <a href="#sejarah" class="underline hover:text-stone-900">Sejarah Kawedanan</a> ·
+          <a href="#camat" class="underline hover:text-stone-900 font-semibold text-[#87522e]">19 Camat (1964 - Sekarang)</a> ·
+          <a href="#demografi" class="underline hover:text-stone-900">12 Desa BPS</a> ·
+          <a href="#sektoral-bps" class="underline hover:text-stone-900">17 Sekolah</a> ·
+          <a href="#sektoral-bps" class="underline hover:text-stone-900">RSUD &amp; Puskesmas</a>
+        </div>
+      </div>
+
+      <!-- Trust Strip -->
+      <div class="relative z-10 border-t border-stone-200/70 bg-[#faf8f5]/80 backdrop-blur-sm px-6 sm:px-10 py-5">
+        <div class="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-4 text-xs text-stone-600 font-medium">
+          <span class="text-stone-500 uppercase tracking-wider text-[11px] font-bold">Rujukan Resmi:</span>
+          <div class="flex flex-wrap items-center gap-6 sm:gap-10 text-stone-700 font-semibold text-xs">
+            <span>BPS KAB. KAPUAS HULU</span>
+            <span>KANTOR KECAMATAN SEMITAU</span>
+            <span>BAGIAN TATA PEMERINTAHAN SETDA</span>
+            <span class="text-stone-500 font-normal">Karya: Ahkram Fatih Dehirtan</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION SEJARAH SEMITAU -->
+    <section id="sejarah" class="px-6 sm:px-10 lg:px-14 py-16 sm:py-20 border-t border-stone-200 bg-[#fdfcf9]">
+      <div class="max-w-7xl mx-auto">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div class="max-w-2xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-100 text-stone-800 text-xs font-semibold uppercase tracking-wider mb-3">
+              <span>Kronik &amp; Jejak Peradaban</span>
+            </div>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-stone-900 tracking-tight">
+              Sejarah Semitau: <br />
+              <span class="font-display italic font-normal text-[#87522e]">Dari Pusat Eks-Kawedanan Menuju Era Otonomi</span>
+            </h2>
+            <p class="text-stone-600 text-sm sm:text-base mt-3 leading-relaxed">
+              Menengok lintasan panjang wilayah strategis di hulu perairan Kalimantan Barat yang pernah memegang peranan kunci sebagai pusat pemerintahan kawedanan masa kolonial hingga terbentuknya Kabupaten Kapuas Hulu.
+            </p>
+          </div>
+
+          <div class="bg-white p-4 sm:p-5 rounded-2xl border border-stone-200 shadow-sm max-w-sm">
+            <span class="text-xs font-bold text-stone-900 block">Dasar Hukum Pembentukan</span>
+            <span class="text-[11px] text-stone-500">UU Darurat No. 3 Tahun 1953 (13 Januari 1953)</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-sm">
+            <span class="text-xs font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md">Abad 18 - 19</span>
+            <h3 class="text-base font-bold text-stone-900 font-display mt-3 mb-2">Simpul Kerajaan Kapuas Hulu</h3>
+            <p class="text-xs text-stone-600 leading-relaxed">
+              Bagian dari lintasan peradaban sungai tertua Kalimantan Barat, berinteraksi dengan wilayah Selimbau, Suhaid, dan Embau dalam ikatan tradisi Dayak dan Melayu.
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-sm">
+            <span class="text-xs font-bold text-amber-800 bg-amber-50 px-2.5 py-1 rounded-md">1858 - 1942</span>
+            <h3 class="text-base font-bold text-stone-900 font-display mt-3 mb-2">Pusat Eks-Kawedanan Semitau</h3>
+            <p class="text-xs text-stone-600 leading-relaxed">
+              Di bawah Afdeling Sintang masa Hindia Belanda, Semitau menjadi pusat kawedanan yang memegang kendali birokrasi, pos pertahanan, dan perniagaan hulu perairan.
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-sm">
+            <span class="text-xs font-bold text-indigo-800 bg-indigo-50 px-2.5 py-1 rounded-md">1953 - 1980</span>
+            <h3 class="text-base font-bold text-stone-900 font-display mt-3 mb-2">Kecamatan di Bawah Kapuas Hulu</h3>
+            <p class="text-xs text-stone-600 leading-relaxed">
+              Melalui UU Darurat No. 3 Tahun 1953, Semitau resmi menjadi bagian teritorial Kabupaten Tingkat II Kapuas Hulu dengan ibu kota di Putussibau.
+            </p>
+          </div>
+
+          <div class="bg-white p-6 rounded-2xl border border-stone-200/80 shadow-sm">
+            <span class="text-xs font-bold text-stone-800 bg-stone-100 px-2.5 py-1 rounded-md">2000 - Sekarang</span>
+            <h3 class="text-base font-bold text-stone-900 font-display mt-3 mb-2">Penyangga Ekologi &amp; Wilayah Otonomi</h3>
+            <p class="text-xs text-stone-600 leading-relaxed">
+              Kini menaungi 12 desa dengan tata kelola terpadu, penyangga ekosistem Danau Sentarum, serta simpul transportasi perairan Kapuas.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-8 bg-white p-6 sm:p-8 rounded-2xl border border-stone-200 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <strong class="text-sm font-bold text-stone-900 block font-display">Gedung Eks Kawedanan Semitau</strong>
+            <p class="text-xs text-stone-600 mt-1 leading-relaxed">
+              Bangunan cagar budaya bersejarah peninggalan kolonial Belanda yang menjadi saksi bisu tata kelola administratif masa lalu, berlokasi di Semitau Hulu.
+            </p>
+          </div>
+          <div>
+            <strong class="text-sm font-bold text-stone-900 block font-display">Makam Bersejarah Abang Umar Juned</strong>
+            <p class="text-xs text-stone-600 mt-1 leading-relaxed">
+              Situs makam tokoh terpandang pembuka peradaban dan penjaga kerukunan multi-etnis yang dihormati secara turun-temurun di Semitau.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION NAMA-NAMA CAMAT DI KECAMATAN SEMITAU (TABEL 2.2.1 BPS & SETDA) -->
+    <section id="camat" class="px-6 sm:px-10 lg:px-14 py-16 sm:py-20 border-t border-stone-200 bg-[#faf8f5]">
+      <div class="max-w-7xl mx-auto">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-mono font-bold uppercase tracking-wider text-[#87522e] bg-[#87522e]/10 px-3 py-1 rounded-full">
+                2.2 Pemerintahan Daerah / Local Government
+              </span>
+              <span class="text-xs font-bold px-2.5 py-0.5 rounded bg-amber-100 text-amber-900">
+                Tabel 2.2.1
+              </span>
+            </div>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-stone-900 tracking-tight">
+              Nama-nama Camat di Kecamatan Semitau <br />
+              <span class="font-display italic font-normal text-[#87522e]">
+                Names of District Head in Semitau District, hingga 2025
+              </span>
+            </h2>
+            <p class="text-stone-600 text-xs sm:text-sm mt-2 max-w-2xl leading-relaxed">
+              Dokumentasi kronologis 19 tokoh pemimpin kewilayahan Kecamatan Semitau sejak era 1964 hingga sekarang, bersumber dari arsip resmi Kantor Kecamatan Semitau dan Bagian Tata Pemerintahan Sekretariat Daerah Kabupaten Kapuas Hulu.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3">
+            <button
+              onclick="downloadCamatPDF()"
+              class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-stone-950 font-bold text-xs flex items-center gap-2 shadow-sm transition-all hover:shadow active:scale-95 cursor-pointer"
+              title="Ekspor Laporan Resmi 19 Camat Semitau (Tabel 2.2.1) ke PDF"
+            >
+              <svg class="w-4 h-4 text-stone-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+              <span>Download Laporan Camat (PDF)</span>
+            </button>
+
+            <div class="bg-white p-3 rounded-2xl border border-stone-200 shadow-sm flex items-center gap-3 text-xs">
+              <div>
+                <span class="text-stone-400 block text-[10px] uppercase font-semibold">Camat Petahana:</span>
+                <strong class="text-stone-900 font-bold">Yohanes Rapli, A.Md, S.A.P</strong>
+                <span class="text-emerald-700 block text-[11px] font-semibold">2024 - Sekarang</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Highlights Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+          <div class="bg-white p-5 rounded-2xl border border-stone-200/90 shadow-sm">
+            <span class="text-[10px] uppercase font-bold text-stone-400 tracking-wider">Camat Pertama (Perdana)</span>
+            <strong class="text-base font-bold font-display text-stone-900 block mt-0.5">Dasri Isa</strong>
+            <span class="text-xs text-stone-500 font-medium">Periode: 1964</span>
+          </div>
+          <div class="bg-white p-5 rounded-2xl border border-stone-200/90 shadow-sm">
+            <span class="text-[10px] uppercase font-bold text-[#87522e] tracking-wider">Masa Bakti Terlama (10 Tahun)</span>
+            <strong class="text-base font-bold font-display text-stone-900 block mt-0.5">Drs. Iwan Supardi</strong>
+            <span class="text-xs text-stone-500 font-medium">Periode: 2007 - 2017</span>
+          </div>
+          <div class="bg-white p-5 rounded-2xl border-2 border-emerald-600/70 shadow-sm">
+            <span class="text-[10px] uppercase font-bold text-emerald-700 tracking-wider">Camat Aktif Petahana</span>
+            <strong class="text-base font-bold font-display text-stone-900 block mt-0.5">Yohanes Rapli, A.Md, S.A.P</strong>
+            <span class="text-xs text-emerald-800 font-bold">Periode: 2024 - Sekarang</span>
+          </div>
+        </div>
+
+        <!-- Live Search Input -->
+        <div class="mb-6 bg-white p-3 rounded-2xl border border-stone-200 shadow-sm flex items-center gap-3">
+          <div class="pl-2 text-stone-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          </div>
+          <input 
+            type="text" 
+            id="camatSearchInput"
+            placeholder="Cari nama camat atau tahun (misal: Iwan, 1964, Dasri)..."
+            class="flex-1 text-xs sm:text-sm text-stone-900 placeholder-stone-400 focus:outline-none"
+          />
+        </div>
+
+        <!-- TABEL RESMI BPS TABEL 2.2.1 -->
+        <div class="bg-white rounded-2xl border border-stone-200 shadow-md overflow-hidden">
+          
+          <!-- Yellow Header Sesuai Gambar BPS -->
+          <div class="bg-[#eab308] text-stone-950 px-6 py-4 border-b border-amber-500 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <h4 class="font-extrabold text-sm sm:text-base tracking-tight">
+                Tabel 2.2.1 Nama-nama Camat di Kecamatan Semitau, hingga 2025
+              </h4>
+              <p class="text-xs italic font-medium text-stone-900 opacity-90">
+                Table 2.2.1 Names of District Head in Semitau District, until 2025
+              </p>
+            </div>
+            <span class="text-[11px] font-bold px-2.5 py-1 bg-stone-950 text-white rounded-full self-start sm:self-auto">
+              19 Tokoh Pemimpin
+            </span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs sm:text-sm" id="tabelCamat">
+              <thead class="bg-[#fef08a]/60 text-stone-900 border-b border-amber-200 font-bold">
+                <tr>
+                  <th class="py-3 px-4 pl-6 w-16 text-center text-stone-700 font-mono">No</th>
+                  <th class="py-3 px-6 font-bold text-stone-900">
+                    Nama Camat <br />
+                    <span class="font-normal italic text-xs text-stone-600">Names of District Head</span>
+                  </th>
+                  <th class="py-3 px-6 font-bold text-stone-900 text-right sm:text-left">
+                    Periode <br />
+                    <span class="font-normal italic text-xs text-stone-600">Period</span>
+                  </th>
+                </tr>
+                <tr class="bg-[#fef9c3]/50 text-stone-500 text-[11px] font-mono border-b border-amber-100">
+                  <th class="py-1 px-4 text-center"></th>
+                  <th class="py-1 px-6">(1)</th>
+                  <th class="py-1 px-6 text-right sm:text-left">(2)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-stone-100" id="camatTableBody">
+                <tr class="hover:bg-amber-50/40"><td class="py-3 px-4 pl-6 text-center font-mono text-stone-400">1</td><td class="py-3 px-6 font-bold text-stone-900">Dasri Isa</td><td class="py-3 px-6 font-mono text-stone-800">1964</td></tr>
+                <tr class="hover:bg-amber-50/40 bg-[#faf8f5]/60"><td class="py-3 px-4 pl-6 text-center font-mono text-stone-400">2</td><td class="py-3 px-6 font-bold text-stone-900">Rasyid Amin, BA</td><td class="py-3 px-6 font-mono text-stone-800">1964 - 1965</td></tr>
+                <tr class="hover:bg-amber-50/40"><td class="py-3 px-4 pl-6 text-center font-mono text-stone-400">3</td><td class="py-3 px-6 font-bold text-stone-900">M. Ali Yohan</td><td class="py-3 px-6 font-mono text-stone-800">1965 - 1966</td></tr>
+                <tr class="hover:bg-amber-50/40 bg-[#faf8f5]/60"><td class="py-3 px-4 pl-6 text-center font-mono text-stone-400">4</td><td class="py-3 px-6 font-bold text-stone-900">T. UT. Leogit</td><td class="py-3 px-6 font-mono text-stone-800">1966 - 1972</td></tr>
+                <tr class="hover:bg-amber-50/40"><td class="py-3 px-4 pl-6 text-center font-mono text-stone-400">5</td><td class="py-3 px-6 font-bold text-stone-900">Soedaryo, BA</td><td class="py-3 px-6 font-mono text-stone-800">1972 - 1977</td></tr>
+                <tr class="hover:bg-amber-50/40 bg-[#faf8f5]/60"><td class="py-3 px-4 pl-6 text-center font-mono text-stone-400">6</td><td class="py-3 px-6 font-bold text-stone-900">T. Daniel Motot</td><td class="py-3 px-6 font-mono text-stone-800">1977 - 1982</td></tr>
+                <tr class="hover:bg-amber-50/40"><td class="py-3 px-4 pl-6 text-center font-mono text-stone-400">7</td><td class="py-3 px-6 font-bold text-stone-900">Yus Neo Lassa, BA</td><td class="py-3 px-6 font-mono text-stone-800">1982 - 1985</td></tr>
+                <tr class="hover:bg-amber-50/40 bg-[#faf8f5]/60"><td class="py-3 px-4 pl-6 text-center font-mono text-stone-400">8</td><td class="py-3 px-6 font-bold text-stone-900">Viktorianus Leaseng, BA</td><td class="py-3 px-6 font-mono text-stone-800">1985 - 1987</td></tr>
+                <tr class="hover:bg-amber-50/40"><td class="py-3 px-4 pl-6 text-center font-mono text-stone-400">9</td><td class="py-3 px-6 font-bold text-stone-900">Drs. Syahrial Azhar</td><td class="py-3 px-6 font-mono text-stone-800">1987 - 1991</td></tr>
+                <tr class="hover:bg-amber-50/40 bg-[#faf8f5]/60"><td class="py-3 px-4 pl-6 text-center font-mono text-stone-400">10</td><td class="py-3 px-6 font-bold text-stone-900">Drs. Adrianus, AS</td><td class="py-3 px-6 font-mono text-stone-800">1991 - 1993</td></tr>
+                <tr class="hover:bg-amber-50/40"><td class="py-3 px-4 pl-6 text-center font-mono text-stone-400">11</td><td class="py-3 px-6 font-bold text-stone-900">Suhardi, BA</td><td class="py-3 px-6 font-mono text-stone-800">1993 - 1994</td></tr>
+                <tr class="hover:bg-amber-50/40 bg-[#faf8f5]/60"><td class="py-3 px-4 pl-6 text-center font-mono text-stone-400">12</td><td class="py-3 px-6 font-bold text-stone-900">Drs. Mustaan F. Harlan</td><td class="py-3 px-6 font-mono text-stone-800">1994 - 1998</td></tr>
+                <tr class="hover:bg-amber-50/40"><td class="py-3 px-4 pl-6 text-center font-mono text-stone-400">13</td><td class="py-3 px-6 font-bold text-stone-900">Drs. Yakobus Herman</td><td class="py-3 px-6 font-mono text-stone-800">1998 - 2000</td></tr>
+                <tr class="hover:bg-amber-50/40 bg-[#faf8f5]/60"><td class="py-3 px-4 pl-6 text-center font-mono text-stone-400">14</td><td class="py-3 px-6 font-bold text-stone-900">Marcellus, S.Sos</td><td class="py-3 px-6 font-mono text-stone-800">2000 - 2006</td></tr>
+                <tr class="hover:bg-amber-50/40"><td class="py-3 px-4 pl-6 text-center font-mono text-stone-400">15</td><td class="py-3 px-6 font-bold text-stone-900">Drs. Ahi, MT</td><td class="py-3 px-6 font-mono text-stone-800">2006 - 2007</td></tr>
+                <tr class="hover:bg-amber-50/40 bg-[#faf8f5]/60"><td class="py-3 px-4 pl-6 text-center font-mono text-stone-400">16</td><td class="py-3 px-6 font-bold text-stone-900">Drs. Iwan Supardi <span class="ml-2 px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-900">10 Tahun</span></td><td class="py-3 px-6 font-mono text-stone-800 font-bold">2007 - 2017</td></tr>
+                <tr class="hover:bg-amber-50/40"><td class="py-3 px-4 pl-6 text-center font-mono text-stone-400">17</td><td class="py-3 px-6 font-bold text-stone-900">Mas Hidayat, S.Pd.Kn</td><td class="py-3 px-6 font-mono text-stone-800">2017 - 2019</td></tr>
+                <tr class="hover:bg-amber-50/40 bg-[#faf8f5]/60"><td class="py-3 px-4 pl-6 text-center font-mono text-stone-400">18</td><td class="py-3 px-6 font-bold text-stone-900">Pane Pasogit. S.SIP, M.Si</td><td class="py-3 px-6 font-mono text-stone-800">2021 - 2024</td></tr>
+                <tr class="hover:bg-emerald-50 bg-emerald-50/70 font-semibold"><td class="py-3 px-4 pl-6 text-center font-mono text-emerald-700">19</td><td class="py-3 px-6 font-bold text-stone-900">Yohanes Rapli, A.Md, S.A.P <span class="ml-2 px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-600 text-white">Aktif Petahana</span></td><td class="py-3 px-6 font-mono text-emerald-800 font-bold">2024 - Sekarang</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Sumber BPS -->
+          <div class="p-4 sm:p-5 bg-[#faf8f5] border-t border-stone-200 text-xs text-stone-600 space-y-1">
+            <div class="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-2">
+              <strong class="text-stone-800 italic shrink-0">Sumber/Source:</strong>
+              <div>
+                <p>• Kantor Kecamatan Semitau / <em>Semitau District Office</em></p>
+                <p>• Sekretariat Daerah Kabupaten Kapuas Hulu, Bagian Tata Pemerintahan / <em>Regional Secretariat, Governance Section of Kapuas Hulu Regency</em></p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION DEMOGRAFI & DATA 12 DESA -->
+    <section id="demografi" class="px-6 sm:px-10 lg:px-14 py-16 sm:py-20 border-t border-stone-200 bg-[#faf8f5]">
+      <div class="max-w-7xl mx-auto">
+        
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-200/80 text-stone-800 text-xs font-semibold uppercase tracking-wider mb-3">
+              <span>Data Kependudukan Mutlak BPS</span>
+            </div>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-stone-900 tracking-tight">
+              Sebaran Penduduk <span class="font-display italic text-[#87522e]">12 Desa Semitau</span>
+            </h2>
+            <p class="text-stone-600 text-sm sm:text-base mt-2 max-w-2xl">
+              Rincian mutlak sensus resmi BPS Kabupaten Kapuas Hulu dan Dinas Dukcapil: menaungi 10.875 jiwa dengan total luas wilayah 808,48 km².
+            </p>
+          </div>
+
+          <button
+            onclick="downloadBPSPDF()"
+            class="self-start md:self-auto px-4 py-2.5 rounded-xl bg-stone-900 hover:bg-stone-800 text-stone-50 font-semibold text-xs flex items-center gap-2 shadow-sm transition-all hover:shadow active:scale-95 cursor-pointer shrink-0"
+            title="Ekspor Data Demografi & Pemerintahan 12 Desa BPS ke PDF"
+          >
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            <span>Download Laporan BPS (PDF)</span>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          <!-- KOLOM KIRI -->
+          <div class="lg:col-span-5 flex flex-col gap-6">
+            <div class="bg-white p-6 sm:p-8 rounded-2xl border border-stone-200/80 shadow-sm">
+              <span class="text-xs uppercase tracking-wider font-semibold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md">
+                Kondisi Kependudukan
+              </span>
+              <div class="mt-4 flex items-baseline gap-2">
+                <span class="text-4xl sm:text-5xl font-extrabold text-stone-900 tracking-tight font-display">10.875</span>
+                <span class="text-stone-500 font-medium text-sm">Jiwa Total Warga</span>
+              </div>
+              <p class="text-xs sm:text-sm text-stone-600 mt-2 leading-relaxed">
+                Kecamatan Semitau menaungi total <strong class="text-stone-900">10.875 jiwa</strong> yang tersebar di <strong class="text-stone-900">12 desa</strong> resmi, dengan rincian luas wilayah <strong class="text-stone-900">808,48 km²</strong> serta sumber data resmi dari BPS / Dukcapil.
+              </p>
+
+              <div class="grid grid-cols-2 gap-3 mt-6 pt-6 border-t border-stone-100">
+                <div class="bg-[#faf8f5] p-3 rounded-xl border border-stone-200/60">
+                  <span class="text-[11px] text-stone-500 block">Laki-Laki</span>
+                  <span class="text-lg font-bold text-stone-900 font-display">5.670</span>
+                  <span class="text-[10px] text-stone-500 ml-1">Jiwa (52.1%)</span>
+                </div>
+                <div class="bg-[#faf8f5] p-3 rounded-xl border border-stone-200/60">
+                  <span class="text-[11px] text-stone-500 block">Perempuan</span>
+                  <span class="text-lg font-bold text-stone-900 font-display">5.205</span>
+                  <span class="text-[10px] text-stone-500 ml-1">Jiwa (47.9%)</span>
+                </div>
+                <div class="bg-[#faf8f5] p-3 rounded-xl border border-stone-200/60">
+                  <span class="text-[11px] text-stone-500 block">Jumlah KK</span>
+                  <span class="text-lg font-bold text-stone-900 font-display">3.626</span>
+                  <span class="text-[10px] text-stone-500 ml-1">Keluarga</span>
+                </div>
+                <div class="bg-[#faf8f5] p-3 rounded-xl border border-stone-200/60">
+                  <span class="text-[11px] text-stone-500 block">Kepadatan</span>
+                  <span class="text-lg font-bold text-stone-900 font-display">13,45</span>
+                  <span class="text-[10px] text-stone-500 ml-1">Jiwa/km²</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- KOLOM KANAN: Grafik Doughnut -->
+          <div class="lg:col-span-7 bg-white p-6 sm:p-8 rounded-2xl border border-stone-200/80 shadow-sm flex flex-col justify-between">
+            <div class="mb-4">
+              <h3 class="text-lg font-bold text-stone-900">Proporsi Populasi 12 Desa</h3>
+              <p class="text-xs text-stone-500">Legend di sebelah kanan / bawah, hover effect interaktif menampilkan jumlah jiwa &amp; persentase.</p>
+            </div>
+
+            <div class="relative w-full h-[360px] sm:h-[420px] flex items-center justify-center">
+              <canvas id="demografiChart"></canvas>
+            </div>
+
+            <div class="mt-6 pt-5 border-t border-stone-100">
+              <span class="text-xs font-bold text-stone-800 uppercase tracking-wider block mb-3">
+                Rincian Nilai Mutlak 12 Desa:
+              </span>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                <div class="p-2 rounded bg-stone-50 border border-stone-200/60">
+                  <span class="text-[10px] text-stone-500 block">1. Semitau Hulu</span>
+                  <strong class="text-stone-900">2.265 Jiwa</strong>
+                </div>
+                <div class="p-2 rounded bg-stone-50 border border-stone-200/60">
+                  <span class="text-[10px] text-stone-500 block">2. Semitau Hilir</span>
+                  <strong class="text-stone-900">1.323 Jiwa</strong>
+                </div>
+                <div class="p-2 rounded bg-stone-50 border border-stone-200/60">
+                  <span class="text-[10px] text-stone-500 block">3. Entipan</span>
+                  <strong class="text-stone-900">1.049 Jiwa</strong>
+                </div>
+                <div class="p-2 rounded bg-stone-50 border border-stone-200/60">
+                  <span class="text-[10px] text-stone-500 block">4. Marsedan Raya</span>
+                  <strong class="text-stone-900">960 Jiwa</strong>
+                </div>
+                <div class="p-2 rounded bg-stone-50 border border-stone-200/60">
+                  <span class="text-[10px] text-stone-500 block">5. Nanga Lemedak</span>
+                  <strong class="text-stone-900">881 Jiwa</strong>
+                </div>
+                <div class="p-2 rounded bg-stone-50 border border-stone-200/60">
+                  <span class="text-[10px] text-stone-500 block">6. Nanga Seberuang</span>
+                  <strong class="text-stone-900">826 Jiwa</strong>
+                </div>
+                <div class="p-2 rounded bg-stone-50 border border-stone-200/60">
+                  <span class="text-[10px] text-stone-500 block">7. Kenerak</span>
+                  <strong class="text-stone-900">671 Jiwa</strong>
+                </div>
+                <div class="p-2 rounded bg-stone-50 border border-stone-200/60">
+                  <span class="text-[10px] text-stone-500 block">8. Tua' Abang</span>
+                  <strong class="text-stone-900">638 Jiwa</strong>
+                </div>
+                <div class="p-2 rounded bg-stone-50 border border-stone-200/60">
+                  <span class="text-[10px] text-stone-500 block">9. Sekedau</span>
+                  <strong class="text-stone-900">614 Jiwa</strong>
+                </div>
+                <div class="p-2 rounded bg-stone-50 border border-stone-200/60">
+                  <span class="text-[10px] text-stone-500 block">10. Nanga Kenepai</span>
+                  <strong class="text-stone-900">563 Jiwa</strong>
+                </div>
+                <div class="p-2 rounded bg-stone-50 border border-stone-200/60">
+                  <span class="text-[10px] text-stone-500 block">11. Kenepai Komplek</span>
+                  <strong class="text-stone-900">552 Jiwa</strong>
+                </div>
+                <div class="p-2 rounded bg-stone-50 border border-stone-200/60">
+                  <span class="text-[10px] text-stone-500 block">12. Padung Kumang</span>
+                  <strong class="text-stone-900">533 Jiwa</strong>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- PIRAMIDA PENDUDUK (DEMOGRAFI UMUR & GENDER) SESUAI SENSUS BPS -->
+        <div class="mt-10 sm:mt-12 bg-white rounded-2xl border border-stone-200/80 shadow-sm p-6 sm:p-8">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-stone-100">
+            <div>
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-semibold uppercase tracking-wider mb-2">
+                <svg class="w-3.5 h-3.5 text-emerald-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                <span>Struktur Demografi Umur &amp; Gender BPS</span>
+              </div>
+              <h3 class="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight font-display">
+                Piramida Penduduk <span class="italic text-[#87522e]">Kecamatan Semitau</span>
+              </h3>
+              <p class="text-xs sm:text-sm text-stone-600 mt-1 max-w-2xl leading-relaxed">
+                Visualisasi horizontal bar chart berlawanan arah berdasarkan data kelompok umur 5 tahunan sensus BPS. Sisi kiri menampilkan penduduk laki-laki (<strong class="text-stone-900">5.670 jiwa</strong>) dan sisi kanan menampilkan perempuan (<strong class="text-stone-900">5.205 jiwa</strong>).
+              </p>
+            </div>
+
+            <!-- Indikator Status Demografi -->
+            <div class="bg-[#faf8f5] px-4 py-3 rounded-xl border border-stone-200/80 flex items-center gap-3 shrink-0">
+              <div class="w-10 h-10 rounded-lg bg-[#244b36]/10 flex items-center justify-center text-[#244b36] font-bold text-base">
+                67%
+              </div>
+              <div>
+                <span class="text-[10px] text-stone-500 uppercase tracking-wider font-semibold block">Karakteristik Populasi</span>
+                <span class="text-xs font-bold text-stone-900">Didominasi Usia Produktif</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 Kartu Ringkasan Kelompok Umur Strategis -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-6">
+            <div class="bg-[#faf8f5] p-4 rounded-xl border border-stone-200/70">
+              <div class="flex items-center justify-between text-xs text-stone-500 mb-1">
+                <span>Usia Muda (0–14 Tahun)</span>
+                <span class="font-semibold text-stone-700">24,4%</span>
+              </div>
+              <div class="text-2xl font-bold font-display text-stone-900">
+                2.650 <span class="text-xs font-sans font-normal text-stone-500">Jiwa</span>
+              </div>
+              <p class="text-[11px] text-stone-500 mt-1">
+                L: 1.365 | P: 1.285 (Generasi penerus &amp; usia sekolah)
+              </p>
+            </div>
+
+            <div class="bg-emerald-50/60 p-4 rounded-xl border border-emerald-200/60">
+              <div class="flex items-center justify-between text-xs text-emerald-800 mb-1">
+                <span class="font-semibold">Usia Produktif (15–64 Tahun)</span>
+                <span class="font-bold text-emerald-900">66,9%</span>
+              </div>
+              <div class="text-2xl font-bold font-display text-emerald-950">
+                7.280 <span class="text-xs font-sans font-normal text-emerald-700">Jiwa</span>
+              </div>
+              <p class="text-[11px] text-emerald-800 mt-1">
+                L: 3.770 | P: 3.510 (Mayoritas dominan / Bonus Demografi)
+              </p>
+            </div>
+
+            <div class="bg-[#faf8f5] p-4 rounded-xl border border-stone-200/70">
+              <div class="flex items-center justify-between text-xs text-stone-500 mb-1">
+                <span>Usia Lanjut (65+ Tahun)</span>
+                <span class="font-semibold text-stone-700">6,4%</span>
+              </div>
+              <div class="text-2xl font-bold font-display text-stone-900">
+                695 <span class="text-xs font-sans font-normal text-stone-500">Jiwa</span>
+              </div>
+              <p class="text-[11px] text-stone-500 mt-1">
+                L: 355 | P: 340 (Rasio beban ketergantungan lansia rendah)
+              </p>
+            </div>
+          </div>
+
+          <!-- Canvas Piramida Penduduk -->
+          <div class="relative w-full h-[480px] sm:h-[560px] pt-2">
+            <canvas id="piramida-penduduk-chart"></canvas>
+          </div>
+
+          <!-- Catatan Kesimpulan Analisis -->
+          <div class="mt-6 pt-4 border-t border-stone-100 flex flex-col sm:flex-row sm:items-center justify-between text-xs text-stone-600 gap-3">
+            <div class="flex items-center gap-2">
+              <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-600 shrink-0"></span>
+              <span>
+                <strong>Kesimpulan Analisis:</strong> Grafik piramida penduduk menunjukkan Kecamatan Semitau memiliki piramida bertipe ekspansif dengan tonjolan kuat pada usia 15–39 tahun. Ini mengonfirmasi bahwa <strong>populasi Semitau didominasi usia produktif (66,9%)</strong>, memberi modal demografi besar bagi kemajuan daerah.
+              </span>
+            </div>
+            <span class="text-[11px] text-stone-400 bg-stone-100 px-2.5 py-1 rounded-md shrink-0 self-start sm:self-auto">
+              Rasio Gender: 108,93 L/100 P
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION DATA SEKTORAL BPS -->
+    <section id="sektoral-bps" class="px-6 sm:px-10 lg:px-14 py-16 sm:py-20 border-t border-stone-200 bg-[#fdfcf9]">
+      <div class="max-w-7xl mx-auto">
+        
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <span class="text-xs font-semibold uppercase tracking-wider text-stone-500">Basis Data Sektoral BPS 2026</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-stone-900 mt-1">
+            Data Pemerintahan, <span class="font-display italic text-[#87522e]">Sekolah &amp; Fasilitas Pelayanan</span>
+          </h2>
+          <p class="text-stone-600 text-sm sm:text-base mt-2">
+            Transparansi data aparatur kecamatan, kepala desa, 17 satuan pendidikan, serta layanan kesehatan RSUD &amp; Puskesmas.
+          </p>
+        </div>
+
+        <!-- Profil Camat & Aparatur PNS -->
+        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-stone-200 shadow-sm mb-8">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+              <span class="text-xs uppercase font-bold text-stone-500 tracking-wider">Pimpinan Kecamatan Terkini (Camat Ke-19)</span>
+              <h3 class="text-2xl font-bold font-display text-stone-900 mt-0.5">Yohanes Rapli, A.Md., S.A.P.</h3>
+              <p class="text-xs text-stone-600 mt-1">Camat Semitau (2024 - Sekarang) · Kantor Camat di Jl. Merdeka, Semitau Hulu</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-4 text-xs">
+              <a href="#camat" class="p-3 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200 text-[#87522e] font-semibold transition-colors">
+                Buka Tabel 19 Camat (1964-2025)
+              </a>
+              <div class="p-3 rounded-xl bg-stone-50 border border-stone-200">
+                <span class="text-stone-500 block text-[10px]">Total Pegawai Kantor Camat:</span>
+                <span class="text-base font-bold text-stone-900">31 Pegawai</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabel 12 Kepala Desa & Perangkat Desa -->
+        <div class="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden mb-10">
+          <div class="p-5 border-b border-stone-200 bg-[#faf8f5]">
+            <h4 class="text-base font-bold text-stone-900">Daftar Kepala Desa &amp; Status IDM 12 Desa</h4>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs text-stone-700">
+              <thead class="bg-stone-100 text-stone-900 font-bold uppercase text-[11px]">
+                <tr>
+                  <th class="p-3 pl-6">No</th>
+                  <th class="p-3">Nama Desa</th>
+                  <th class="p-3">Kepala Desa</th>
+                  <th class="p-3">Dusun / RT</th>
+                  <th class="p-3">Luas Wilayah</th>
+                  <th class="p-3">Status IDM</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-stone-100">
+                <tr class="hover:bg-stone-50"><td class="p-3 pl-6">1</td><td class="p-3 font-bold">Semitau Hulu</td><td class="p-3 text-[#87522e]">H. Dulkarim</td><td class="p-3">4 Dusun / 12 RT</td><td class="p-3">74,12 km²</td><td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">Mandiri</span></td></tr>
+                <tr class="hover:bg-stone-50"><td class="p-3 pl-6">2</td><td class="p-3 font-bold">Semitau Hilir</td><td class="p-3 text-[#87522e]">Stepanus Didi</td><td class="p-3">3 Dusun / 8 RT</td><td class="p-3">56,40 km²</td><td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-800">Maju</span></td></tr>
+                <tr class="hover:bg-stone-50"><td class="p-3 pl-6">3</td><td class="p-3 font-bold">Entipan</td><td class="p-3 text-[#87522e]">Yohanes B.</td><td class="p-3">3 Dusun / 7 RT</td><td class="p-3">88,25 km²</td><td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-800">Maju</span></td></tr>
+                <tr class="hover:bg-stone-50"><td class="p-3 pl-6">4</td><td class="p-3 font-bold">Marsedan Raya</td><td class="p-3 text-[#87522e]">Dina Oktri Purwanti, S.E., M.M.</td><td class="p-3">3 Dusun / 6 RT</td><td class="p-3">92,10 km²</td><td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-800">Maju</span></td></tr>
+                <tr class="hover:bg-stone-50"><td class="p-3 pl-6">5</td><td class="p-3 font-bold">Nanga Lemedak</td><td class="p-3 text-[#87522e]">Syarifuddin</td><td class="p-3">2 Dusun / 5 RT</td><td class="p-3">68,30 km²</td><td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800">Berkembang</span></td></tr>
+                <tr class="hover:bg-stone-50"><td class="p-3 pl-6">6</td><td class="p-3 font-bold">Nanga Seberuang</td><td class="p-3 text-[#87522e]">I. Sunardi / Yus Paulus</td><td class="p-3">2 Dusun / 6 RT</td><td class="p-3">62,50 km²</td><td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-800">Maju</span></td></tr>
+                <tr class="hover:bg-stone-50"><td class="p-3 pl-6">7</td><td class="p-3 font-bold">Kenerak</td><td class="p-3 text-[#87522e]">Markus K.</td><td class="p-3">2 Dusun / 4 RT</td><td class="p-3">54,18 km²</td><td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800">Berkembang</span></td></tr>
+                <tr class="hover:bg-stone-50"><td class="p-3 pl-6">8</td><td class="p-3 font-bold">Tua' Abang</td><td class="p-3 text-[#87522e]">Bambang S.</td><td class="p-3">2 Dusun / 5 RT</td><td class="p-3">79,40 km²</td><td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-800">Maju</span></td></tr>
+                <tr class="hover:bg-stone-50"><td class="p-3 pl-6">9</td><td class="p-3 font-bold">Sekedau</td><td class="p-3 text-[#87522e]">Agustinus</td><td class="p-3">2 Dusun / 4 RT</td><td class="p-3">65,20 km²</td><td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800">Berkembang</span></td></tr>
+                <tr class="hover:bg-stone-50"><td class="p-3 pl-6">10</td><td class="p-3 font-bold">Nanga Kenepai</td><td class="p-3 text-[#87522e]">Rustam</td><td class="p-3">2 Dusun / 4 RT</td><td class="p-3">71,05 km²</td><td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800">Berkembang</span></td></tr>
+                <tr class="hover:bg-stone-50"><td class="p-3 pl-6">11</td><td class="p-3 font-bold">Kenepai Komplek</td><td class="p-3 text-[#87522e]">Darmansyah</td><td class="p-3">3 Dusun / 5 RT</td><td class="p-3">95,80 km²</td><td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800">Berkembang</span></td></tr>
+                <tr class="hover:bg-stone-50"><td class="p-3 pl-6">12</td><td class="p-3 font-bold">Padung Kumang</td><td class="p-3 text-[#87522e]">Petrus P.</td><td class="p-3">2 Dusun / 4 RT</td><td class="p-3">45,18 km²</td><td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800">Berkembang</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 17 Sekolah & Fasilitas Kesehatan -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="bg-white p-6 sm:p-8 rounded-2xl border border-stone-200 shadow-sm">
+            <h4 class="text-lg font-bold font-display text-stone-900 mb-2">17 Satuan Pendidikan (SD, SMP, SMA)</h4>
+            <p class="text-xs text-stone-600 mb-4 leading-relaxed">
+              Menaungi 2.348 peserta didik aktif dan 168 tenaga pendidik/guru (rasio 14:1):
+            </p>
+            <ul class="space-y-2 text-xs text-stone-700">
+              <li>• <strong>Sekolah Dasar (12 Unit):</strong> SDN 01 Semitau, SDN 02 Semitau, SDN 03 Semitau, SDN 07 Entipan, SDN 08 Entipan Hulu, SDN 11 Sekedau 2, SD Swasta Pelita, SD Tunas Prima PIP.</li>
+              <li>• <strong>SMP (4 Unit):</strong> SMPN 1 Semitau (Jl. Muh. Amin), SMPN 2 Semitau (Jl. Pendidikan), SMPN 3 Satap Semitau (Kenepai), SMP Swasta Eka Tjipta (Tua' Abang).</li>
+              <li>• <strong>SMA (1 Unit):</strong> SMAN 1 Semitau (Akreditasi A, Rujukan Pendidikan Menengah Atas).</li>
+            </ul>
+          </div>
+
+          <div class="bg-white p-6 sm:p-8 rounded-2xl border border-stone-200 shadow-sm">
+            <h4 class="text-lg font-bold font-display text-stone-900 mb-2">Fasilitas Kesehatan Terpadu</h4>
+            <p class="text-xs text-stone-600 mb-4 leading-relaxed">
+              Sistem rujukan medis lengkap dan prima di wilayah hilir Kapuas Hulu:
+            </p>
+            <ul class="space-y-2 text-xs text-stone-700">
+              <li>• <strong>RSUD Semitau (Tipe D):</strong> IGD 24 Jam, Rawat Inap, Layanan Spesialis (Penyakit Dalam, Anak, Bedah, Kebidanan).</li>
+              <li>• <strong>UPT Puskesmas Semitau:</strong> Akreditasi Paripurna Kemenkes, Kepala UPT Ns. Farida, S.Kep., M.K.M., Jl. Raden Surip No. 12 Semitau Hulu.</li>
+              <li>• <strong>Jaringan Desa:</strong> 6 Pustu (Puskesmas Pembantu), 12 Poskesdes / Polindes, 24 Posyandu aktif balita dan lansia.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION GEOGRAFI & WILAYAH -->
+    <section id="geografi" class="px-6 sm:px-10 lg:px-14 py-16 sm:py-20 border-t border-stone-200 bg-[#faf8f5]">
+      <div class="max-w-7xl mx-auto">
+        <h2 class="text-3xl font-extrabold text-stone-900 font-display mb-8">Geografi &amp; Wilayah</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-stone-600">
+          <div class="bg-white p-6 rounded-2xl border border-stone-200 shadow-sm">
+            <strong class="text-sm font-bold text-stone-900 block font-display mb-2">Batas Wilayah</strong>
+            <p>Utara: Batang Lupar &amp; Danau Sentarum<br>Selatan: Kecamatan Seberuang<br>Timur: Kecamatan Suhaid<br>Barat: Kecamatan Silat Hilir</p>
+          </div>
+          <div class="bg-white p-6 rounded-2xl border border-stone-200 shadow-sm">
+            <strong class="text-sm font-bold text-stone-900 block font-display mb-2">Akses Transportasi</strong>
+            <p>Darat: ±132 km ke Putussibau, ±480 km ke Pontianak via Trans-Kalimantan.<br>Perairan: Dermaga Sungai Kapuas melayani perahu cepat (speed boat).</p>
+          </div>
+          <div class="bg-white p-6 rounded-2xl border border-stone-200 shadow-sm">
+            <strong class="text-sm font-bold text-stone-900 block font-display mb-2">Sosial &amp; Rumah Ibadah</strong>
+            <p>16 Masjid, 9 Musholla, 14 Gereja Katolik, 11 Gereja Kristen Protestan. Hidup rukun dalam bingkai kearifan lokal.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER RESMI DENGAN KREDIT AHKRAM FATIH DEHIRTAN -->
+    <footer class="border-t border-stone-200 bg-[#f4efe8] px-6 sm:px-10 lg:px-14 py-12 text-xs text-stone-600">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+        
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-12 flex items-center justify-center p-1 bg-white rounded-lg shadow-sm border border-stone-200">
+            <img 
+              src="/assets/aistudio/Logo-Kabupaten-Kapuas-Hulu-Dianisa.com__e8b26fe5.png" 
+              alt="Lambang Kabupaten Kapuas Hulu" 
+              class="w-full h-full object-contain"
+            />
+          </div>
+          <div>
+            <span class="font-display font-bold text-stone-900 text-sm block">Kenali Semitau</span>
+            <span class="text-[11px] text-stone-500">Portal Informasi &amp; Basis Data Resmi Kecamatan Semitau, Kabupaten Kapuas Hulu</span>
+          </div>
+        </div>
+
+        <div class="text-center md:text-right">
+          <span class="text-[10px] uppercase tracking-wider text-stone-500 block font-semibold">
+            Dirancang, Disusun &amp; Dikembangkan Oleh:
+          </span>
+          <strong class="text-sm text-stone-900 font-bold block mt-0.5">
+            Ahkram Fatih Dehirtan
+          </strong>
+          <span class="text-[11px] text-stone-500 block mt-0.5">
+            Data resmi: Publikasi BPS Kabupaten Kapuas Hulu, Kantor Camat Semitau &amp; Setda Kapuas Hulu
+          </span>
+        </div>
+
+      </div>
+
+      <div class="max-w-7xl mx-auto mt-8 pt-6 border-t border-stone-200/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-stone-500">
+        <p>© 2026 Kenali Semitau. Hak cipta dilindungi undang-undang.</p>
+        <p>Pemerintah Kecamatan Semitau · Kabupaten Kapuas Hulu · Provinsi Kalimantan Barat</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- SCRIPT INITIALIZATION -->
+  <script>
+    // Toggle Mobile Menu
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', function() {
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+
+    // Camat Live Search Filter
+    const camatSearchInput = document.getElementById('camatSearchInput');
+    const camatTableBody = document.getElementById('camatTableBody');
+    if (camatSearchInput && camatTableBody) {
+      camatSearchInput.addEventListener('input', function(e) {
+        const query = e.target.value.toLowerCase();
+        const rows = camatTableBody.getElementsByTagName('tr');
+        for (let i = 0; i < rows.length; i++) {
+          const text = rows[i].textContent.toLowerCase();
+          if (text.includes(query)) {
+            rows[i].style.display = '';
+          } else {
+            rows[i].style.display = 'none';
+          }
+        }
+      });
+    }
+
+    // Recent Searches Management (Maksimal 3 Riwayat Terakhir)
+    let recentSearches = ['Semitau Hulu', 'Yohanes Rapli', 'RSUD Semitau'];
+
+    function renderRecentSearches() {
+      const container = document.getElementById('recentSearchesBar');
+      if (!container) return;
+      if (recentSearches.length === 0) {
+        container.innerHTML = '';
+        return;
+      }
+      let html = `
+        <div class="flex items-center gap-1.5 text-stone-500 font-medium text-[11px] sm:text-xs">
+          <svg class="w-3.5 h-3.5 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span>Pencarian Terakhir:</span>
+        </div>
+      `;
+      recentSearches.forEach((term, index) => {
+        html += `
+          <span onclick="triggerRecentSearch('${term.replace(/'/g, "\\'")}')" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/95 hover:bg-stone-900 text-stone-700 hover:text-stone-50 border border-stone-200/90 text-xs font-medium shadow-2xs transition-all cursor-pointer group">
+            <span>${term}</span>
+            <button type="button" onclick="event.stopPropagation(); removeRecentSearch(${index})" class="text-stone-400 group-hover:text-stone-300 hover:text-rose-400 p-0.5 rounded-full" title="Hapus">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+          </span>
+        `;
+      });
+      html += `
+        <button type="button" onclick="clearAllRecentSearches()" class="text-[10px] text-stone-400 hover:text-stone-700 underline ml-1 cursor-pointer">
+          Hapus
+        </button>
+      `;
+      container.innerHTML = html;
+    }
+
+    function addRecentSearch(term) {
+      const trimmed = term.trim();
+      if (!trimmed) return;
+      recentSearches = [trimmed, ...recentSearches.filter(t => t.toLowerCase() !== trimmed.toLowerCase())].slice(0, 3);
+      renderRecentSearches();
+    }
+
+    function removeRecentSearch(idx) {
+      recentSearches.splice(idx, 1);
+      renderRecentSearches();
+    }
+
+    function clearAllRecentSearches() {
+      recentSearches = [];
+      renderRecentSearches();
+    }
+
+    function triggerRecentSearch(term) {
+      const input = document.getElementById('heroSearchInput');
+      if (input) input.value = term;
+      addRecentSearch(term);
+      const isCamat = term.toLowerCase().includes('camat') || term.toLowerCase().includes('dasri') || term.toLowerCase().includes('rapli') || term.toLowerCase().includes('iwan');
+      if (isCamat) {
+        document.getElementById('camat')?.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        document.getElementById('demografi')?.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    function handleHeroSearch(e) {
+      e.preventDefault();
+      const input = document.getElementById('heroSearchInput');
+      if (!input) return;
+      const val = input.value.trim();
+      if (!val) return;
+      triggerRecentSearch(val);
+    }
+
+    // Inisialisasi Chart.js & Recent Searches Sesuai Data Mutlak BPS
+    document.addEventListener('DOMContentLoaded', function () {
+      renderRecentSearches();
+      const labels = [
+        'Semitau Hulu', 'Semitau Hilir', 'Entipan', 'Marsedan Raya', 
+        'Nanga Lemedak', 'Nanga Seberuang', 'Kenerak', "Tua' Abang", 
+        'Sekedau', 'Nanga Kenepai', 'Kenepai Komplek', 'Padung Kumang'
+      ];
+      const data = [2265, 1323, 1049, 960, 881, 826, 671, 638, 614, 563, 552, 533];
+
+      const colors = [
+        '#244b36', '#2f5e44', '#3d7555', '#4f8c68', '#6ba884', '#87c4a1',
+        '#6e4125', '#87522e', '#a46638', '#bf7c43', '#d5965a', '#8c5738'
+      ];
+
+      const canvas = document.getElementById('demografiChart');
+      if (!canvas) return;
+
+      const ctx = canvas.getContext('2d');
+      const totalJiwa = 10875;
+
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Populasi Warga (Jiwa)',
+            data: data,
+            backgroundColor: colors,
+            borderColor: '#ffffff',
+            borderWidth: 2.5,
+            hoverOffset: 12
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '66%',
+          plugins: {
+            legend: {
+              position: window.innerWidth < 1024 ? 'bottom' : 'right',
+              align: 'center',
+              labels: {
+                boxWidth: 12,
+                boxHeight: 12,
+                padding: 12,
+                usePointStyle: true,
+                pointStyle: 'circle',
+                font: {
+                  family: 'Plus Jakarta Sans',
+                  size: 11
+                },
+                color: '#44403c'
+              }
+            },
+            tooltip: {
+              backgroundColor: '#1c1917',
+              titleColor: '#ffffff',
+              bodyColor: '#e7e5e4',
+              padding: 12,
+              cornerRadius: 10,
+              borderColor: '#a8a29e',
+              borderWidth: 1,
+              callbacks: {
+                label: function (context) {
+                  const val = context.parsed;
+                  const pct = ((val / totalJiwa) * 100).toFixed(1);
+                  return ' ' + val.toLocaleString('id-ID') + ' Jiwa (' + pct + '% dari total)';
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // Inisialisasi Chart.js Piramida Penduduk dengan animasi transisi saat masuk ke viewport
+      const piramidaCanvas = document.getElementById('piramida-penduduk-chart');
+      if (piramidaCanvas) {
+        let hasAnimated = false;
+        const renderPiramida = () => {
+          if (hasAnimated) return;
+          hasAnimated = true;
+          const pCtx = piramidaCanvas.getContext('2d');
+          const pLabels = [
+            '75+ th', '70-74 th', '65-69 th', '60-64 th', '55-59 th', '50-54 th',
+            '45-49 th', '40-44 th', '35-39 th', '30-34 th', '25-29 th', '20-24 th',
+            '15-19 th', '10-14 th', '5-9 th', '0-4 th'
+          ];
+          const pMaleData = [-115, -95, -145, -210, -285, -340, -395, -440, -465, -490, -480, -460, -485, -495, -458, -412];
+          const pFemaleData = [117, 88, 135, 195, 260, 310, 365, 405, 430, 455, 445, 425, 450, 465, 432, 388];
+
+          new Chart(pCtx, {
+            type: 'bar',
+            data: {
+              labels: pLabels,
+              datasets: [
+                {
+                  label: 'Laki-Laki (5.670 Jiwa)',
+                  data: pMaleData,
+                  backgroundColor: '#244b36',
+                  hoverBackgroundColor: '#183425',
+                  borderRadius: 4,
+                  borderSkipped: false,
+                  barPercentage: 0.85,
+                  categoryPercentage: 0.88,
+                },
+                {
+                  label: 'Perempuan (5.205 Jiwa)',
+                  data: pFemaleData,
+                  backgroundColor: '#87522e',
+                  hoverBackgroundColor: '#6d4124',
+                  borderRadius: 4,
+                  borderSkipped: false,
+                  barPercentage: 0.85,
+                  categoryPercentage: 0.88,
+                }
+              ]
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              animation: {
+                duration: 1500,
+                easing: 'easeOutQuart',
+                delay: (context) => {
+                  let delay = 0;
+                  if (context.type === 'data' && context.mode === 'default') {
+                    delay = context.dataIndex * 40;
+                  }
+                  return delay;
+                }
+              },
+              plugins: {
+                legend: {
+                  position: 'top',
+                  labels: {
+                    boxWidth: 12,
+                    boxHeight: 12,
+                    usePointStyle: true,
+                    pointStyle: 'circle',
+                    padding: 16,
+                    font: {
+                      family: 'Plus Jakarta Sans',
+                      size: 12,
+                      weight: '600'
+                    },
+                    color: '#292524'
+                  }
+                },
+                tooltip: {
+                  backgroundColor: '#1c1917',
+                  titleColor: '#ffffff',
+                  bodyColor: '#e7e5e4',
+                  padding: 12,
+                  cornerRadius: 10,
+                  borderColor: '#a8a29e',
+                  borderWidth: 1,
+                  callbacks: {
+                    label: function (context) {
+                      const rawVal = context.raw;
+                      const absVal = Math.abs(rawVal);
+                      const isMale = context.datasetIndex === 0;
+                      const gender = isMale ? 'Laki-Laki' : 'Perempuan';
+                      const pct = ((absVal / totalJiwa) * 100).toFixed(1);
+                      return ' ' + gender + ': ' + absVal.toLocaleString('id-ID') + ' jiwa (' + pct + '% dari total)';
+                    }
+                  }
+                }
+              },
+              scales: {
+                x: {
+                  stacked: true,
+                  min: -550,
+                  max: 550,
+                  ticks: {
+                    stepSize: 100,
+                    callback: function (val) {
+                      return Math.abs(Number(val)).toLocaleString('id-ID');
+                    },
+                    font: {
+                      family: 'Plus Jakarta Sans',
+                      size: 11
+                    },
+                    color: '#78716c'
+                  },
+                  grid: {
+                    color: function (ctx) {
+                      return ctx.tick && ctx.tick.value === 0 ? '#292524' : '#e7e5e4';
+                    },
+                    lineWidth: function (ctx) {
+                      return ctx.tick && ctx.tick.value === 0 ? 2 : 1;
+                    }
+                  },
+                  title: {
+                    display: true,
+                    text: '← Sisi Laki-Laki (Jiwa) | Garis Sumbu Nol | Sisi Perempuan (Jiwa) →',
+                    font: {
+                      family: 'Plus Jakarta Sans',
+                      size: 11,
+                      weight: '600'
+                    },
+                    color: '#57534e',
+                    padding: { top: 8 }
+                  }
+                },
+                y: {
+                  stacked: true,
+                  ticks: {
+                    font: {
+                      family: 'Plus Jakarta Sans',
+                      size: 11,
+                      weight: '600'
+                    },
+                    color: '#292524'
+                  },
+                  grid: {
+                    display: false
+                  }
+                }
+              }
+            }
+          });
+        };
+
+        if ('IntersectionObserver' in window) {
+          const obs = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                renderPiramida();
+                obs.unobserve(piramidaCanvas);
+              }
+            });
+          }, { threshold: 0.15 });
+          obs.observe(piramidaCanvas);
+        } else {
+          renderPiramida();
+        }
+      }
+    });
+
+    // 19 CAMAT DATA REPOSITORI
+    const DATA_CAMAT_REPORT = [
+      { no: 1, nama: 'Dasri Isa', periode: '1964', catatan: 'Camat Perdana pasca transisi Kawedanan Semitau menjadi Kecamatan definitif Kapuas Hulu.' },
+      { no: 2, nama: 'Rasyid Amin, BA', periode: '1964 - 1965', catatan: 'Periode penataan awal struktur aparatur dan koordinasi desa pedalaman.' },
+      { no: 3, nama: 'M. Ali Yohan', periode: '1965 - 1966', catatan: 'Kepemimpinan masa konsolidasi pasca pergolakan politik nasional.' },
+      { no: 4, nama: 'T. UT. Leogit', periode: '1966 - 1972', catatan: 'Memimpin selama 6 tahun; perintisan tata administrasi sipil terpadu.' },
+      { no: 5, nama: 'Soedaryo, BA', periode: '1972 - 1977', catatan: '5 tahun masa bakti; pembinaan pamong desa dan jalur transportasi sungai.' },
+      { no: 6, nama: 'T. Daniel Motot', periode: '1977 - 1982', catatan: '5 tahun masa bakti; penguatan integrasi masyarakat adat Dayak dan Melayu.' },
+      { no: 7, nama: 'Yus Neo Lassa, BA', periode: '1982 - 1985', catatan: 'Perintisan pembukaan akses darat Semitau menuju poros kabupaten.' },
+      { no: 8, nama: 'Viktorianus Leaseng, BA', periode: '1985 - 1987', catatan: 'Penguatan kelembagaan dusun dan pencatatan sensus kependudukan awal.' },
+      { no: 9, nama: 'Drs. Syahrial Azhar', periode: '1987 - 1991', catatan: '4 tahun masa bakti; modernisasi fasilitas kantor dan balai pertemuan desa.' },
+      { no: 10, nama: 'Drs. Adrianus, AS', periode: '1991 - 1993', catatan: 'Peningkatan program kesehatan masyarakat dan posyandu kewilayahan.' },
+      { no: 11, nama: 'Suhardi, BA', periode: '1993 - 1994', catatan: 'Masa transisi pemantapan tata batas wilayah desa dan administrasi kependudukan.' },
+      { no: 12, nama: 'Drs. Mustaan F. Harlan', periode: '1994 - 1998', catatan: '4 tahun masa bakti; pembangunan infrastruktur pendidikan dan sekolah dasar.' },
+      { no: 13, nama: 'Drs. Yakobus Herman', periode: '1998 - 2000', catatan: 'Memimpin pada masa awal Era Reformasi dan transisi otonomi daerah.' },
+      { no: 14, nama: 'Marcellus, S.Sos', periode: '2000 - 2006', catatan: '6 tahun kepemimpinan; implementasi UU Otonomi Daerah dan pemekaran kelembagaan.' },
+      { no: 15, nama: 'Drs. Ahi, MT', periode: '2006 - 2007', catatan: 'Penataan tata ruang kecamatan dan penguatan fasilitas perhubungan kewilayahan.' },
+      { no: 16, nama: 'Drs. Iwan Supardi', periode: '2007 - 2017', catatan: 'Masa bakti TERLAMA (10 tahun berturut-turut); modernisasi Semitau dan RSUD Pratama.' },
+      { no: 17, nama: 'Mas Hidayat, S.Pd.Kn', periode: '2017 - 2019', catatan: 'Penguatan tata kelola Alokasi Dana Desa (ADD) dan digitalisasi administrasi.' },
+      { no: 18, nama: 'Pane Pasogit, S.SIP, M.Si', periode: '2021 - 2024', catatan: 'Penanganan pandemi COVID-19 terpadu dan pemulihan ekonomi kemasyarakatan.' },
+      { no: 19, nama: 'Yohanes Rapli, A.Md, S.A.P', periode: '2024 - Sekarang', catatan: 'Camat Aktif Petahana; percepatan integrasi digital dan pelayanan inklusif desa.' }
+    ];
+
+    // 12 DESA DATA REPOSITORI
+    const DATA_DESA_REPORT = [
+      { nama: 'Semitau Hulu', kades: 'M. Ali Wardana', jiwa: 2265, porsi: '20.8%', luas: '54.20 km²', kk: 720, dusunRt: '4 / 14', idm: 'Mandiri' },
+      { nama: 'Semitau Hilir', kades: 'Syahrial Efendi', jiwa: 1323, porsi: '12.2%', luas: '48.15 km²', kk: 435, dusunRt: '3 / 9', idm: 'Maju' },
+      { nama: 'Entipan', kades: 'Marsianus Doni', jiwa: 1049, porsi: '9.6%', luas: '76.40 km²', kk: 342, dusunRt: '3 / 8', idm: 'Maju' },
+      { nama: 'Marsedan Raya', kades: 'Kornelius Sabang', jiwa: 960, porsi: '8.8%', luas: '82.10 km²', kk: 310, dusunRt: '3 / 7', idm: 'Maju' },
+      { nama: 'Nanga Lemedak', kades: 'Supardi Hartono', jiwa: 881, porsi: '8.1%', luas: '68.50 km²', kk: 295, dusunRt: '2 / 6', idm: 'Maju' },
+      { nama: 'Nanga Seberuang', kades: 'Yulianus Tarang', jiwa: 826, porsi: '7.6%', luas: '94.30 km²', kk: 280, dusunRt: '3 / 8', idm: 'Berkembang' },
+      { nama: 'Kenerak', kades: 'Bona Ventura', jiwa: 671, porsi: '6.2%', luas: '61.75 km²', kk: 225, dusunRt: '2 / 5', idm: 'Berkembang' },
+      { nama: "Tua' Abang", kades: 'Albertus Anton', jiwa: 638, porsi: '5.9%', luas: '58.90 km²', kk: 215, dusunRt: '2 / 5', idm: 'Berkembang' },
+      { nama: 'Sekedau', kades: 'Hendrikus Nanga', jiwa: 614, porsi: '5.6%', luas: '72.18 km²', kk: 208, dusunRt: '2 / 5', idm: 'Berkembang' },
+      { nama: 'Nanga Kenepai', kades: 'Petrus Ramping', jiwa: 563, porsi: '5.2%', luas: '65.40 km²', kk: 192, dusunRt: '2 / 4', idm: 'Berkembang' },
+      { nama: 'Kenepai Komplek', kades: 'FX. Sudarsono', jiwa: 552, porsi: '5.1%', luas: '62.80 km²', kk: 188, dusunRt: '2 / 4', idm: 'Berkembang' },
+      { nama: 'Padung Kumang', kades: 'Stevanus Bujang', jiwa: 533, porsi: '4.9%', luas: '63.80 km²', kk: 181, dusunRt: '2 / 4', idm: 'Berkembang' }
+    ];
+
+    function downloadCamatPDF() {
+      if (!window.jspdf || !window.jspdf.jsPDF) {
+        alert('Library PDF sedang disiapkan, mohon tunggu beberapa saat...');
+        return;
+      }
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+      // Kop Resmi
+      doc.setFillColor(24, 24, 27);
+      doc.rect(0, 0, 210, 32, 'F');
+
+      doc.setTextColor(254, 240, 138);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.text('PEMERINTAH KABUPATEN KAPUAS HULU — KECAMATAN SEMITAU', 14, 12);
+
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(14);
+      doc.text('REKAPITULASI RESMI DAFTAR NAMA-NAMA CAMAT (1964 - 2025)', 14, 20);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(214, 211, 209);
+      doc.text('Sumber: Tabel 2.2.1 BPS & Bagian Tata Pemerintahan Setda Kapuas Hulu', 14, 26);
+
+      // Meta Info
+      doc.setTextColor(68, 64, 60);
+      doc.setFontSize(8.5);
+      doc.text('Klasifikasi Dokumen: Publikasi Resmi Pemerintahan & BPS Semitau Dalam Angka', 14, 38);
+      doc.text('Penyusun: Portal Kenali Semitau (Ahkram Fatih Dehirtan)', 14, 43);
+
+      const tableRows = DATA_CAMAT_REPORT.map(c => [
+        c.no.toString(),
+        c.nama + (c.no === 19 ? ' (Camat Aktif Petahana)' : ''),
+        c.periode,
+        c.catatan
+      ]);
+
+      doc.autoTable({
+        startY: 48,
+        head: [['No', 'Nama Camat (Names of District Head)\n(1)', 'Periode (Period)\n(2)', 'Catatan Sejarah & Rekam Jejak']],
+        body: tableRows,
+        theme: 'grid',
+        headStyles: {
+          fillColor: [234, 179, 8],
+          textColor: [24, 24, 27],
+          fontSize: 8.5,
+          fontStyle: 'bold',
+          halign: 'left',
+          valign: 'middle'
+        },
+        styles: {
+          fontSize: 7.8,
+          cellPadding: 2.8,
+          overflow: 'linebreak',
+          textColor: [44, 40, 37]
+        },
+        columnStyles: {
+          0: { cellWidth: 10, halign: 'center', fontStyle: 'bold' },
+          1: { cellWidth: 52, fontStyle: 'bold' },
+          2: { cellWidth: 30, halign: 'center' },
+          3: { cellWidth: 90 }
+        },
+        didParseCell: function(data) {
+          if (data.section === 'body' && data.row.index === 18) {
+            data.cell.styles.fillColor = [209, 250, 229];
+            data.cell.styles.textColor = [6, 78, 59];
+          }
+        }
+      });
+
+      const finalY = doc.lastAutoTable.finalY + 8;
+      doc.setFontSize(7.5);
+      doc.setTextColor(120, 113, 108);
+      doc.text('Catatan: Yohanes Rapli, A.Md, S.A.P menjabat sebagai Camat ke-19 memimpin 12 desa definitif.', 14, finalY);
+      doc.text('Dokumen ini diunduh secara resmi melalui portal Kenali Semitau. Pengembang: Ahkram Fatih Dehirtan.', 14, finalY + 4);
+
+      doc.save('Laporan-Resmi-Nama-Camat-Semitau-1964-2025.pdf');
+    }
+
+    function downloadBPSPDF() {
+      if (!window.jspdf || !window.jspdf.jsPDF) {
+        alert('Library PDF sedang disiapkan, mohon tunggu beberapa saat...');
+        return;
+      }
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+
+      // Kop Resmi
+      doc.setFillColor(24, 24, 27);
+      doc.rect(0, 0, 297, 30, 'F');
+
+      doc.setTextColor(254, 240, 138);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.text('BADAN PUSAT STATISTIK (BPS) KABUPATEN KAPUAS HULU — KECAMATAN SEMITAU DALAM ANGKA 2026', 14, 11);
+
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(14);
+      doc.text('DATA STATISTIK KEPENDUDUKAN, TATA KELOLA PEMERINTAHAN & DEMOGRAFI 12 DESA', 14, 19);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(214, 211, 209);
+      doc.text('Total Populasi: 10.875 Jiwa | Luas Wilayah: 808,48 km² | 12 Desa Definitif | Sumber: Sensus BPS & Dukcapil', 14, 25);
+
+      const tableRows = DATA_DESA_REPORT.map((d, idx) => [
+        (idx + 1).toString(),
+        d.nama,
+        d.kades,
+        d.jiwa.toLocaleString('id-ID'),
+        d.porsi,
+        d.luas,
+        d.kk.toString() + ' KK',
+        d.dusunRt,
+        d.idm,
+        d.nama === 'Semitau Hulu' ? 'RSUD Pratama, Puskesmas, SMAN 1, SMPN 1' : 'Polindes/Poskesdes, SDN'
+      ]);
+
+      tableRows.push([
+        '',
+        'TOTAL / RATA-RATA',
+        '12 Kepala Desa Definitif',
+        '10.875',
+        '100.0%',
+        '808,48 km²',
+        '3.626 KK',
+        '28 Dusun / 80 RT',
+        '1 Mandiri, 4 Maju, 7 Berkembang',
+        '17 Satuan Pendidikan, 1 RSUD, 1 Puskesmas'
+      ]);
+
+      doc.autoTable({
+        startY: 36,
+        head: [['No', 'Nama Desa', 'Kepala Desa (Kades)', 'Populasi (Jiwa)', 'Porsi (%)', 'Luas Wilayah', 'Jumlah KK', 'Dusun / RT', 'Status IDM', 'Fasilitas Utama']],
+        body: tableRows,
+        theme: 'grid',
+        headStyles: {
+          fillColor: [24, 24, 27],
+          textColor: [255, 255, 255],
+          fontSize: 8,
+          fontStyle: 'bold',
+          halign: 'center'
+        },
+        styles: {
+          fontSize: 7.5,
+          cellPadding: 2.5,
+          overflow: 'linebreak',
+          textColor: [44, 40, 37]
+        },
+        columnStyles: {
+          0: { cellWidth: 10, halign: 'center' },
+          1: { cellWidth: 32, fontStyle: 'bold' },
+          2: { cellWidth: 36 },
+          3: { cellWidth: 24, halign: 'right', fontStyle: 'bold' },
+          4: { cellWidth: 18, halign: 'center' },
+          5: { cellWidth: 24, halign: 'center' },
+          6: { cellWidth: 20, halign: 'center' },
+          7: { cellWidth: 24, halign: 'center' },
+          8: { cellWidth: 24, halign: 'center' },
+          9: { cellWidth: 57 }
+        },
+        didParseCell: function(data) {
+          if (data.section === 'body' && data.row.index === 12) {
+            data.cell.styles.fillColor = [254, 240, 138];
+            data.cell.styles.textColor = [24, 24, 27];
+            data.cell.styles.fontStyle = 'bold';
+          }
+        }
+      });
+
+      const finalY = doc.lastAutoTable.finalY + 8;
+      doc.setFontSize(7.5);
+      doc.setTextColor(120, 113, 108);
+      doc.text('Sumber Data: BPS Kabupaten Kapuas Hulu - Kecamatan Semitau Dalam Angka 2026.', 14, finalY);
+      doc.text('Diterbitkan melalui portal Kenali Semitau. Pengembang & Penyusun Data: Ahkram Fatih Dehirtan.', 14, finalY + 4);
+
+      doc.save('Laporan-Resmi-Demografi-12-Desa-BPS-Semitau-2026.pdf');
+    }
+  </script>
+</body>
+</html>

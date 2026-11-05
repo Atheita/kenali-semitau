@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kerapatan Wilayah Administratif - Pesona Semitau</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-stone-100 min-h-screen flex items-center justify-center p-4 sm:p-8">
+
+  <div class="w-full max-w-4xl mx-auto">
+    <!-- KOMPONEN KARTU DASBOR INTERAKTIF LOLLIPOP CHART -->
+    <div class="bg-white rounded-2xl shadow-lg border border-stone-200/80 p-6 sm:p-8 transition-all hover:shadow-xl">
+      
+      <!-- Card Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-stone-100">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-semibold uppercase tracking-wider mb-2">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+            </svg>
+            <span>Pesona Semitau · Wilayah Administratif</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
+            Kerapatan Wilayah Administratif
+          </h2>
+          <p class="text-xs sm:text-sm text-stone-500 mt-1">
+            Distribusi Jumlah RT per Desa di Kecamatan Semitau
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3 self-start sm:self-auto">
+          <div class="bg-emerald-50 border border-emerald-200/80 px-3.5 py-2 rounded-xl text-xs text-emerald-900 font-semibold flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>Total: <strong>78 RT</strong> (12 Desa)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Canvas Lollipop Chart Container -->
+      <div class="relative w-full h-[440px] sm:h-[480px] pt-4">
+        <canvas id="lollipopRTChart"></canvas>
+      </div>
+
+      <!-- Card Footer / Legend Insight -->
+      <div class="mt-6 pt-4 border-t border-stone-100 flex flex-col sm:flex-row sm:items-center justify-between text-xs text-stone-600 gap-3">
+        <div class="flex items-center gap-2">
+          <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-600 shrink-0"></span>
+          <span>
+            <strong>Lollipop Chart:</strong> Batang garis ramping dengan kepala bulatan titik ujung merepresentasikan konsentrasi RT tertinggi di <em>Semitau Hulu (14 RT)</em> &amp; <em>Semitau Hilir (12 RT)</em>.
+          </span>
+        </div>
+        <span class="text-[11px] text-stone-400 bg-stone-50 px-2.5 py-1 rounded border border-stone-200/60 shrink-0">
+          Sumber: Data Statistik BPS
+        </span>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Dataset Jumlah RT per Desa di Kecamatan Semitau
+      const dataRT = [
+        { desa: 'Semitau Hulu', rt: 14 },
+        { desa: 'Semitau Hilir', rt: 12 },
+        { desa: 'Entipan', rt: 8 },
+        { desa: 'Marsedan Raya', rt: 7 },
+        { desa: 'Nanga Lemedak', rt: 6 },
+        { desa: 'Nanga Seberuang', rt: 6 },
+        { desa: 'Kenerak', rt: 5 },
+        { desa: "Tua' Abang", rt: 5 },
+        { desa: 'Sekedau', rt: 4 },
+        { desa: 'Nanga Kenepai', rt: 4 },
+        { desa: 'Kenepai Komplek', rt: 4 },
+        { desa: 'Padung Kumang', rt: 3 }
+      ];
+
+      const labels = dataRT.map(item => item.desa);
+      const values = dataRT.map(item => item.rt);
+
+      // 2. Custom Plugin: Menggambar kepala bulatan (head) Lollipop di ujung bar horizontal
+      const lollipopHeadPlugin = {
+        id: 'lollipopHead',
+        afterDatasetsDraw(chart) {
+          const { ctx } = chart;
+          const meta = chart.getDatasetMeta(0);
+          if (!meta || meta.hidden) return;
+
+          meta.data.forEach((element, index) => {
+            const { x, y } = element.tooltipPosition();
+            ctx.save();
+
+            // Efek glow lembut khas Tailwind Emerald
+            ctx.shadowColor = 'rgba(5, 150, 105, 0.4)';
+            ctx.shadowBlur = 8;
+
+            // Bulatan kepala lollipop
+            ctx.beginPath();
+            ctx.arc(x, y, 6.5, 0, 2 * Math.PI);
+            ctx.fillStyle = '#059669'; // Tailwind emerald-600
+            ctx.fill();
+
+            // Cincin putih kontras
+            ctx.lineWidth = 2.5;
+            ctx.strokeStyle = '#ffffff';
+            ctx.stroke();
+
+            // Titik tengah putih
+            ctx.beginPath();
+            ctx.arc(x, y, 2, 0, 2 * Math.PI);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+
+            // Label nilai RT di samping bulatan
+            ctx.shadowBlur = 0;
+            ctx.font = '600 11px "Plus Jakarta Sans", sans-serif';
+            ctx.fillStyle = '#065f46'; // Tailwind emerald-800
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(`${values[index]} RT`, x + 12, y);
+
+            ctx.restore();
+          });
+        }
+      };
+
+      // 3. Konfigurasi Chart.js
+      const canvas = document.getElementById('lollipopRTChart');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Jumlah RT',
+              data: values,
+              backgroundColor: '#10b981', // Tailwind emerald-500
+              hoverBackgroundColor: '#047857',
+              barThickness: 3.5, // Garis sangat ramping menyerupai tangkai lollipop
+              borderRadius: 2
+            }]
+          },
+          options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: {
+              padding: { right: 50, left: 10 }
+            },
+            animation: {
+              duration: 1300,
+              easing: 'easeOutQuart'
+            },
+            plugins: {
+              legend: {
+                display: false
+              },
+              tooltip: {
+                backgroundColor: '#0f172a',
+                titleColor: '#ffffff',
+                bodyColor: '#e2e8f0',
+                padding: 10,
+                cornerRadius: 8,
+                displayColors: false,
+                callbacks: {
+                  label: function(context) {
+                    return `Jumlah: ${context.parsed.x} Rukun Tetangga (RT)`;
+                  }
+                }
+              }
+            },
+            scales: {
+              x: {
+                beginAtZero: true,
+                max: 16,
+                grid: {
+                  display: false // Hilangkan garis vertikal yang mencolok agar bersih
+                },
+                ticks: {
+                  stepSize: 2,
+                  font: { family: 'Plus Jakarta Sans', size: 11 },
+                  color: '#64748b',
+                  callback: function(val) {
+                    return val + ' RT';
+                  }
+                }
+              },
+              y: {
+                grid: {
+                  color: '#f1f5f9',
+                  drawBorder: false
+                },
+                ticks: {
+                  font: { family: 'Plus Jakarta Sans', size: 11, weight: '600' },
+                  color: '#1e293b'
+                }
+              }
+            }
+          },
+          plugins: [lollipopHeadPlugin]
+        });
+      }
+    });
+  </script>
+</body>
+</html>

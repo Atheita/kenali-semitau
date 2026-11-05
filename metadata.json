@@ -1,0 +1,8 @@
+{
+  "name": "Kenali Semitau - Portal Data Resmi, Sejarah & Informasi BPS",
+  "description": "Portal informasi dan data resmi Kecamatan Semitau, Kabupaten Kapuas Hulu. Menampilkan sejarah eks-kawedanan, demografi 12 desa BPS, data sekolah, aparatur desa, fasilitas kesehatan, dan geografi. Dibuat oleh Ahkram Fatih Dehirtan.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
